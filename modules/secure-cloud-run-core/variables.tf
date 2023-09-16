@@ -344,3 +344,15 @@ variable "ingress" {
   default     = "internal-and-cloud-load-balancing"
   description = "Set the ingress traffic sources allowed to call the service. Supported values:  all, internal and internal-and-cloud-load-balancing"
 }
+
+variable "load_balancing_scheme" {
+  type        = string
+  default     = "INTERNAL_SELF_MANAGED"
+  description = "Load balancing scheme type (EXTERNAL for classic external load balancer, EXTERNAL_MANAGED for Envoy-based load balancer, and INTERNAL_SELF_MANAGED for traffic director)"
+}
+
+variable "network" {
+  description = "Network for INTERNAL_SELF_MANAGED load balancing scheme"
+  type        = string
+  default     = "default"
+}

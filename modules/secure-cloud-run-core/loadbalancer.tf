@@ -20,13 +20,15 @@ locals {
 
 module "lb-http" {
   source                          = "GoogleCloudPlatform/lb-http/google//modules/serverless_negs"
-  version                         = "~> 6.3"
+  version                         = "9.2.0"
   name                            = var.lb_name
   project                         = var.project_id
   ssl                             = true
   managed_ssl_certificate_domains = var.ssl_certificates.generate_certificates_for_domains
   ssl_certificates                = var.ssl_certificates.ssl_certificates_self_links
   use_ssl_certificates            = length(var.ssl_certificates.generate_certificates_for_domains) == 0 ? true : false
+  load_balancing_scheme           = var.load_balancing_scheme
+  network                         = var.network
   https_redirect                  = false
   http_forward                    = false
 
@@ -49,8 +51,8 @@ module "lb-http" {
         oauth2_client_secret = ""
       }
       log_config = {
-        enable      = true
-        sample_rate = null
+        enable      = false
+        sample_rate = 0
       }
     }
   }
