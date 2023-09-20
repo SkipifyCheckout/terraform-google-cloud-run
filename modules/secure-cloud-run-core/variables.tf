@@ -344,3 +344,9 @@ variable "ingress" {
   default     = "internal-and-cloud-load-balancing"
   description = "Set the ingress traffic sources allowed to call the service. Supported values:  all, internal and internal-and-cloud-load-balancing"
 }
+
+variable "certificate_map" {
+  description = "Certificate Map ID in format projects/{project}/locations/global/certificateMaps/{name}. Identifies a certificate map associated with the given target proxy"
+  type        = string
+  default     = null
+}

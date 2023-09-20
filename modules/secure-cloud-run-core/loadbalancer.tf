@@ -20,7 +20,7 @@ locals {
 
 module "lb-http" {
   source                          = "GoogleCloudPlatform/lb-http/google//modules/serverless_negs"
-  version                         = "~> 6.3"
+  version                         = "~> 9.2"
   name                            = var.lb_name
   project                         = var.project_id
   ssl                             = true
@@ -29,7 +29,7 @@ module "lb-http" {
   use_ssl_certificates            = length(var.ssl_certificates.generate_certificates_for_domains) == 0 ? true : false
   https_redirect                  = false
   http_forward                    = false
-
+  certificate_map = var.certificate_map
   backends = {
     default = {
       description = null
