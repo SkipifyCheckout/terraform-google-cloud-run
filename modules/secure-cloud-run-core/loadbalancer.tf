@@ -16,19 +16,31 @@
 
 locals {
   cloud_armor_id = var.create_cloud_armor_policies ? google_compute_security_policy.cloud-armor-security-policy[0].id : "projects/${var.project_id}/global/securityPolicies/${var.cloud_armor_policies_name}"
+
+  url_map = join("", google_compute_url_map.default.*.self_link)
 }
 
-module "lb-http" {
+resource "google_compute_url_map" "default" {
+  provider        = google-beta
+  project         = var.project
+  count           = var.create_url_map ? 1 : 0
+  name            = "${var.name}-url-map"
+  default_service = var.service_name
+}
+
+module "alb" {
   source                          = "GoogleCloudPlatform/lb-http/google//modules/serverless_negs"
-  version                         = "~> 6.3"
-  name                            = var.lb_name
+  version = "9.2.0"
+  name                            = var.service_name
   project                         = var.project_id
   ssl                             = true
   managed_ssl_certificate_domains = var.ssl_certificates.generate_certificates_for_domains
   ssl_certificates                = var.ssl_certificates.ssl_certificates_self_links
   use_ssl_certificates            = length(var.ssl_certificates.generate_certificates_for_domains) == 0 ? true : false
-  https_redirect                  = false
-  http_forward                    = false
+  https_redirect                  = true
+  http_forward                    = true
+  create_url_map = false
+  url_map = local.url_map
 
   backends = {
     default = {
