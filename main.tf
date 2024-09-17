@@ -34,6 +34,7 @@ resource "google_cloud_run_service" "main" {
   template {
     spec {
       containers {
+        name    = var.service_name
         image   = var.image
         command = var.container_command
         args    = var.argument
