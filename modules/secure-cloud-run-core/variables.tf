@@ -197,13 +197,18 @@ variable "timeout_seconds" {
 }
 
 variable "volumes" {
-  description = "[Beta] Volumes needed for environment variables (when using secret)."
+  description = "Volumes to attach to the container. Use secret for Secret Manager volumes, or csi for GCS FUSE volumes."
   type = list(object({
     name = string
-    secret = set(object({
+    secret = optional(set(object({
       secret_name = string
       items       = map(string)
-    }))
+    })), [])
+    csi = optional(list(object({
+      driver            = string
+      read_only         = optional(bool, true)
+      volume_attributes = optional(map(string), {})
+    })), [])
   }))
   default = []
 }
