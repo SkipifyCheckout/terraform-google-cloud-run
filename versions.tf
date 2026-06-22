@@ -20,19 +20,19 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "< 6"
+      version = ">= 6, < 8"
     }
     google-beta = {
       source  = "hashicorp/google-beta"
-      version = "< 6"
+      version = ">= 6, < 8"
     }
   }
 
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-cloud-run/v0.10.0"
+    module_name = "blueprints/terraform/terraform-google-cloud-run/v0.33.0"
   }
 
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-cloud-run/v0.10.0"
+    module_name = "blueprints/terraform/terraform-google-cloud-run/v0.33.0"
   }
 }

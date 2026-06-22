@@ -40,10 +40,22 @@ variable "exec" {
   default     = false
 }
 
+variable "create_service_account" {
+  description = "Create service account for the job. Otherwise, use the default Compute Engine default service account"
+  type        = bool
+  default     = false
+}
+
 variable "service_account_email" {
   type        = string
   description = "Service Account email needed for the job"
   default     = ""
+}
+
+variable "service_account_project_roles" {
+  type        = list(string)
+  description = "Roles to grant to the newly created cloud run SA in specified project. Should be used with create_service_account set to true and no input for service_account_email"
+  default     = []
 }
 
 variable "argument" {
@@ -114,9 +126,14 @@ variable "task_count" {
 variable "volumes" {
   type = list(object({
     name = string
-    cloud_sql_instance = object({
-      instances = set(string)
-    })
+    cloud_sql_instance = optional(object({
+      instances = list(string)
+    }))
+    gcs = optional(object({
+      bucket        = string
+      read_only     = optional(bool)
+      mount_options = optional(list(string))
+    }))
   }))
   description = "A list of Volumes to make available to containers."
   default     = []
@@ -157,4 +174,10 @@ variable "timeout" {
     condition     = can(regex("^[0-9]+(\\.[0-9]{1,9})?s$", var.timeout))
     error_message = "The value must be a duration in seconds with up to nine fractional digits, ending with 's'. Example: \"3.5s\"."
   }
+}
+
+variable "cloud_run_deletion_protection" {
+  type        = bool
+  description = "This field prevents Terraform from destroying or recreating the Cloud Run v2 Jobs and Services"
+  default     = true
 }

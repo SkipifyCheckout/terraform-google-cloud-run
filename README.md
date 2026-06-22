@@ -35,7 +35,8 @@ Basic usage of this module is as follows:
 ```hcl
 module "cloud_run" {
   source  = "GoogleCloudPlatform/cloud-run/google"
-  version = "~> 0.10.0"
+  # Locked to 0.20, allows minor updates – check for latest version
+  version = "~> 0.33"
 
   # Required variables
   service_name           = "<SERVICE NAME>"
@@ -86,6 +87,7 @@ module "cloud_run" {
 
 | Name | Description |
 |------|-------------|
+| apphub\_service\_uri | Service URI in CAIS style to be used by Apphub. |
 | domain\_map\_id | Unique Identifier for the created domain map |
 | domain\_map\_status | Status of Domain mapping |
 | location | Location in which the Cloud Run service was created |

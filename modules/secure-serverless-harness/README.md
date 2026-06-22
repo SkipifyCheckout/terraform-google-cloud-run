@@ -24,7 +24,8 @@ Basic usage of this module is as follows:
 ```hcl
 module "secure_cloud_run_harness" {
   source  = "GoogleCloudPlatform/cloud-run/google//modules/secure-cloud-serverless-harness"
-  version = "~> 0.9.1"
+  # Locked to 0.20, allows minor updates – check for latest version
+  version = "~> 0.33"
 
   # Required variables
   billing_account                   = "<BILLING ACCOUNT>"
@@ -63,6 +64,7 @@ module "secure_cloud_run_harness" {
 | dns\_enable\_logging | Toggle DNS logging for VPC DNS. | `bool` | `true` | no |
 | egress\_policies | A list of all [egress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#egress-rules-reference), each list object has a `from` and `to` value that describes egress\_from and egress\_to.<br><br>Example: `[{ from={ identities=[], identity_type="ID_TYPE" }, to={ resources=[], operations={ "SRV_NAME"={ OP_TYPE=[] }}}}]`<br><br>Valid Values:<br>`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow identities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`<br>`SRV_NAME` = "`*`" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)<br>`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions). | <pre>list(object({<br>    from = any<br>    to   = any<br>  }))</pre> | `[]` | no |
 | encrypters | List of comma-separated owners for each key declared in set\_encrypters\_for. | `list(string)` | `[]` | no |
+| folder\_deletion\_protection | Prevent Terraform from destroying or recreating the folder. | `string` | `true` | no |
 | ingress\_policies | A list of all [ingress policies](https://cloud.google.com/vpc-service-controls/docs/ingress-egress-rules#ingress-rules-reference), each list object has a `from` and `to` value that describes ingress\_from and ingress\_to.<br><br>Example: `[{ from={ sources={ resources=[], access_levels=[] }, identities=[], identity_type="ID_TYPE" }, to={ resources=[], operations={ "SRV_NAME"={ OP_TYPE=[] }}}}]`<br><br>Valid Values:<br>`ID_TYPE` = `null` or `IDENTITY_TYPE_UNSPECIFIED` (only allow identities from list); `ANY_IDENTITY`; `ANY_USER_ACCOUNT`; `ANY_SERVICE_ACCOUNT`<br>`SRV_NAME` = "`*`" (allow all services) or [Specific Services](https://cloud.google.com/vpc-service-controls/docs/supported-products#supported_products)<br>`OP_TYPE` = [methods](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions) or [permissions](https://cloud.google.com/vpc-service-controls/docs/supported-method-restrictions). | <pre>list(object({<br>    from = any<br>    to   = any<br>  }))</pre> | `[]` | no |
 | key\_name | Key name. | `string` | n/a | yes |
 | key\_protection\_level | The protection level to use when creating a version based on this template. Possible values: ["SOFTWARE", "HSM"]. | `string` | `"HSM"` | no |
@@ -76,6 +78,7 @@ module "secure_cloud_run_harness" {
 | parent\_folder\_id | The ID of a folder to host the infrastructure created in this module. | `string` | `""` | no |
 | prevent\_destroy | Set the prevent\_destroy lifecycle attribute on keys. | `bool` | `true` | no |
 | private\_service\_connect\_ip | The internal IP to be used for the private service connect. | `string` | n/a | yes |
+| project\_deletion\_policy | The deletion policy for the project created. | `string` | `"PREVENT"` | no |
 | region | The region in which the subnetwork will be created. | `string` | n/a | yes |
 | security\_project\_extra\_apis | The extra APIs to be enabled during security project creation. | `list(string)` | `[]` | no |
 | security\_project\_name | The name to give the security project. | `string` | n/a | yes |
@@ -84,6 +87,7 @@ module "secure_cloud_run_harness" {
 | serverless\_project\_names | The name to give the Cloud Serverless project. | `list(string)` | n/a | yes |
 | service\_account\_project\_roles | Common roles to apply to the Cloud Serverless service account in the serverless project. | `map(list(string))` | `{}` | no |
 | subnet\_ip | The CDIR IP range of the subnetwork. | `string` | n/a | yes |
+| time\_to\_wait\_service\_identity\_propagation | The time to wait for service identity propagation. | `string` | `"180s"` | no |
 | time\_to\_wait\_vpc\_sc\_propagation | The time to wait VPC-SC propagation when applying and destroying. | `string` | `"180s"` | no |
 | use\_shared\_vpc | Defines if the network created will be a single or shared vpc. | `bool` | `false` | no |
 | vpc\_name | The name of the network. | `string` | n/a | yes |
