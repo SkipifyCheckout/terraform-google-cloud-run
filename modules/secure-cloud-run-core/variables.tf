@@ -234,6 +234,12 @@ variable "node_selector" {
   default     = null
 }
 
+variable "gpu_zonal_redundancy_disabled" {
+  description = "Set to `true` to disable GPU zonal redundancy (avoids requiring GPU zonal-redundancy quota). Only applied when a GPU is configured via `node_selector`. Leave `null` for the Cloud Run default (enabled)."
+  type        = bool
+  default     = null
+}
+
 variable "ports" {
   description = "Port which the container listens to (http1 or h2c)."
   type = object({

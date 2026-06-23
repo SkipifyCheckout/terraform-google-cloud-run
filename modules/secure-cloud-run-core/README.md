@@ -51,6 +51,7 @@ module "cloud_run_core" {
 | env\_vars | Environment variables. | <pre>list(object({<br>    value = string<br>    name  = string<br>  }))</pre> | `[]` | no |
 | force\_override | Option to force override existing mapping. | `bool` | `false` | no |
 | generate\_revision\_name | Option to enable revision name generation. | `bool` | `true` | no |
+| gpu\_zonal\_redundancy\_disabled | Set to `true` to disable GPU zonal redundancy (avoids requiring GPU zonal-redundancy quota). Only applied when a GPU is configured via `node_selector`. Leave `null` for the Cloud Run default (enabled). | `bool` | `null` | no |
 | image | GAR hosted image URL to deploy. | `string` | n/a | yes |
 | lb\_name | Name for load balancer and associated resources. | `string` | `"tf-cr-lb"` | no |
 | limits | Resource limits to the container. | `map(string)` | `null` | no |
