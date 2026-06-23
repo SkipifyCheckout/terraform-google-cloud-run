@@ -159,6 +159,9 @@ spec:
         description: Resource requests to the container
         varType: map(string)
         defaultValue: {}
+      - name: node_selector
+        description: Node Selector describes the hardware requirements of the resources. Use the key `run.googleapis.com/accelerator` to set the GPU type (e.g. `nvidia-l4`). Requires `nvidia.com/gpu` set in `limits` and CPU throttling disabled (`run.googleapis.com/cpu-throttling` = `false` in `template_annotations`). [More info](https://cloud.google.com/run/docs/configuring/services/gpu).
+        varType: map(string)
       - name: ports
         description: Port which the container listens to (http1 or h2c)
         varType: |-

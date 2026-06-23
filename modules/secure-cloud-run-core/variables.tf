@@ -228,6 +228,12 @@ variable "requests" {
   default     = {}
 }
 
+variable "node_selector" {
+  description = "GPU hardware requirements. Set the key `run.googleapis.com/accelerator` to the GPU type (e.g. `nvidia-l4`). Also add `\"nvidia.com/gpu\"` to `limits` and set `cpu_throttling = false`. [More info](https://cloud.google.com/run/docs/configuring/services/gpu)."
+  type        = map(string)
+  default     = null
+}
+
 variable "ports" {
   description = "Port which the container listens to (http1 or h2c)."
   type = object({
