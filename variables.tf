@@ -146,6 +146,12 @@ variable "requests" {
   default     = {}
 }
 
+variable "node_selector" {
+  type        = map(string)
+  description = "Node Selector describes the hardware requirements of the resources. Use the key `run.googleapis.com/accelerator` to set the GPU type (e.g. `nvidia-l4`). Requires `nvidia.com/gpu` set in `limits` and CPU throttling disabled (`run.googleapis.com/cpu-throttling` = `false` in `template_annotations`). [More info](https://cloud.google.com/run/docs/configuring/services/gpu)."
+  default     = null
+}
+
 variable "ports" {
   type = object({
     name = string

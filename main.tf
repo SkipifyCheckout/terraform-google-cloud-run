@@ -149,6 +149,7 @@ resource "google_cloud_run_service" "main" {
       container_concurrency = var.container_concurrency # maximum allowed concurrent requests 0,1,2-N
       timeout_seconds       = var.timeout_seconds       # max time instance is allowed to respond to a request
       service_account_name  = var.service_account_email
+      node_selector         = var.node_selector # GPU hardware requirements, e.g. {"run.googleapis.com/accelerator" = "nvidia-l4"}
 
       dynamic "volumes" {
         for_each = var.volumes
