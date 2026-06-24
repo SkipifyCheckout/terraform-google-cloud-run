@@ -33,6 +33,12 @@ locals {
     "run.googleapis.com/gpu-zonal-redundancy-disabled" = tostring(var.gpu_zonal_redundancy_disabled)
   } : {}
 
+  # GPU enforces the "max instances <= GPU quota" rule against the service-level maxScale,
+  # which Cloud Run defaults to 100. Pin it to max_scale_instances so GPU services aren't rejected.
+  gpu_service_annotations = var.node_selector != null ? {
+    "run.googleapis.com/maxScale" = tostring(var.max_scale_instances)
+  } : {}
+
   secrets = distinct(flatten([
     for secret in var.volumes : [
       for secret_name in secret.secret : [
@@ -84,9 +90,12 @@ module "cloud_run" {
   domain_map_annotations = var.domain_map_annotations
   verified_domain_name   = var.verified_domain_name
 
-  service_annotations = {
-    "run.googleapis.com/ingress" = var.ingress
-  }
+  service_annotations = merge(
+    {
+      "run.googleapis.com/ingress" = var.ingress
+    },
+    local.gpu_service_annotations,
+  )
 
   template_annotations = merge(
     local.annotations_for_template,
