@@ -29,6 +29,10 @@ locals {
     secret = {}
   }
 
+  gpu_annotations = (var.node_selector != null && var.gpu_zonal_redundancy_disabled != null) ? {
+    "run.googleapis.com/gpu-zonal-redundancy-disabled" = tostring(var.gpu_zonal_redundancy_disabled)
+  } : {}
+
   secrets = distinct(flatten([
     for secret in var.volumes : [
       for secret_name in secret.secret : [
@@ -86,6 +90,7 @@ module "cloud_run" {
 
   template_annotations = merge(
     local.annotations_for_template,
+    local.gpu_annotations,
     local.conditional_annotations["secret"]
   )
 

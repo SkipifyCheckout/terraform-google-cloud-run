@@ -217,6 +217,9 @@ spec:
       - name: node_selector
         description: GPU hardware requirements. Set the key `run.googleapis.com/accelerator` to the GPU type (e.g. `nvidia-l4`). Also add `"nvidia.com/gpu"` to `limits` and set `cpu_throttling = false`. [More info](https://cloud.google.com/run/docs/configuring/services/gpu).
         varType: map(string)
+      - name: gpu_zonal_redundancy_disabled
+        description: Set to `true` to disable GPU zonal redundancy (avoids requiring GPU zonal-redundancy quota). Only applied when a GPU is configured via `node_selector`. Leave `null` for the Cloud Run default (enabled).
+        varType: bool
       - name: ports
         description: Port which the container listens to (http1 or h2c).
         varType: |-
