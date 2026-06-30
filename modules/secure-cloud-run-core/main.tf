@@ -89,6 +89,7 @@ module "cloud_run" {
   domain_map_labels      = var.domain_map_labels
   domain_map_annotations = var.domain_map_annotations
   verified_domain_name   = var.verified_domain_name
+  startup_probe          = var.startup_probe
 
   service_annotations = merge(
     {
